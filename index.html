@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Real-time weather dashboard built with JavaScript Fetch API and asynchronous programming.">
+
+    <meta name="author"
+          content="Pingaksh Arora">
+
+    <title>WeatherFlow | Weather Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-content">
+
+            <div>
+                <p class="eyebrow">JavaScript & REST API</p>
+
+                <h1>WeatherFlow</h1>
+
+                <p class="header-subtitle">
+                    Search for a city and view live weather information.
+                </p>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="container main-content">
+
+        <!-- Search Section -->
+        <section class="search-section"
+                 aria-labelledby="search-title">
+
+            <div class="section-heading">
+                <p class="eyebrow">Live Weather</p>
+
+                <h2 id="search-title">
+                    Check the Weather
+                </h2>
+
+                <p>
+                    Enter a city name to retrieve current weather
+                    conditions.
+                </p>
+            </div>
+
+            <form id="search-form"
+                  class="search-form">
+
+                <div class="input-wrapper">
+
+                    <label for="city-input"
+                           class="sr-only">
+                        Enter city name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city-input"
+                        name="city"
+                        placeholder="Enter city name..."
+                        autocomplete="off"
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="button primary"
+                    id="search-button">
+
+                    Search Weather
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Status Message -->
+        <div
+            id="status-message"
+            class="status-message"
+            role="status"
+            aria-live="polite">
+        </div>
+
+
+        <!-- Loading -->
+        <div
+            id="loading"
+            class="loading hidden"
+            aria-live="polite">
+
+            <div class="loading-spinner"
+                 aria-hidden="true">
+            </div>
+
+            <p>Fetching weather data...</p>
+
+        </div>
+
+
+        <!-- Error -->
+        <div
+            id="error-message"
+            class="error-message hidden"
+            role="alert">
+
+            <h3>Unable to get weather</h3>
+
+            <p id="error-text">
+                Something went wrong. Please try again.
+            </p>
+
+        </div>
+
+
+        <!-- Weather Dashboard -->
+        <section
+            id="weather-dashboard"
+            class="weather-dashboard hidden"
+            aria-labelledby="weather-title">
+
+            <!-- Location -->
+            <div class="weather-header">
+
+                <div>
+                    <p class="eyebrow">
+                        Current Conditions
+                    </p>
+
+                    <h2 id="weather-title">
+                        Weather
+                    </h2>
+
+                    <p id="location-name"
+                       class="location-name">
+                        —
+                    </p>
+                </div>
+
+                <div class="weather-icon"
+                     id="weather-icon"
+                     aria-hidden="true">
+                    ☀️
+                </div>
+
+            </div>
+
+
+            <!-- Main Temperature -->
+            <div class="temperature-section">
+
+                <span
+                    id="temperature"
+                    class="temperature">
+                    —
+                </span>
+
+                <span class="temperature-unit">
+                    °C
+                </span>
+
+            </div>
+
+
+            <!-- Weather Cards -->
+            <div class="weather-grid">
+
+                <!-- Humidity -->
+                <article class="weather-card">
+
+                    <div class="card-icon"
+                         aria-hidden="true">
+                        💧
+                    </div>
+
+                    <div>
+                        <p class="card-label">
+                            Humidity
+                        </p>
+
+                        <p class="card-value">
+                            <span id="humidity">—</span>%
+                        </p>
+                    </div>
+
+                </article>
+
+
+                <!-- Wind Speed -->
+                <article class="weather-card">
+
+                    <div class="card-icon"
+                         aria-hidden="true">
+                        💨
+                    </div>
+
+                    <div>
+                        <p class="card-label">
+                            Wind Speed
+                        </p>
+
+                        <p class="card-value">
+                            <span id="wind-speed">—</span>
+                            km/h
+                        </p>
+                    </div>
+
+                </article>
+
+
+                <!-- Weather Condition -->
+                <article class="weather-card">
+
+                    <div class="card-icon"
+                         aria-hidden="true">
+                        🌤️
+                    </div>
+
+                    <div>
+                        <p class="card-label">
+                            Condition
+                        </p>
+
+                        <p
+                            id="weather-condition"
+                            class="card-value">
+                            —
+                        </p>
+                    </div>
+
+                </article>
+
+
+                <!-- Weather Code -->
+                <article class="weather-card">
+
+                    <div class="card-icon"
+                         aria-hidden="true">
+                        🌍
+                    </div>
+
+                    <div>
+                        <p class="card-label">
+                            Weather Code
+                        </p>
+
+                        <p
+                            id="weather-code"
+                            class="card-value">
+                            —
+                        </p>
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- API Information -->
+            <div class="api-info">
+
+                <p>
+                    Data retrieved asynchronously using the
+                    JavaScript Fetch API.
+                </p>
+
+                <p id="last-updated">
+                    Last updated: —
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Features -->
+        <section
+            class="features-section"
+            aria-labelledby="features-title">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    JavaScript Concepts
+                </p>
+
+                <h2 id="features-title">
+                    What This Project Demonstrates
+                </h2>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <span class="feature-number">
+                        01
+                    </span>
+
+                    <h3>
+                        Fetch API
+                    </h3>
+
+                    <p>
+                        Retrieves live weather information
+                        from a public REST API.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <span class="feature-number">
+                        02
+                    </span>
+
+                    <h3>
+                        Async / Await
+                    </h3>
+
+                    <p>
+                        Handles asynchronous API requests
+                        using modern JavaScript syntax.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <span class="feature-number">
+                        03
+                    </span>
+
+                    <h3>
+                        JSON Processing
+                    </h3>
+
+                    <p>
+                        Parses JSON responses and dynamically
+                        displays weather data.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <span class="feature-number">
+                        04
+                    </span>
+
+                    <h3>
+                        Error Handling
+                    </h3>
+
+                    <p>
+                        Handles invalid cities and failed
+                        network requests gracefully.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <p>
+                Asynchronous JavaScript & RESTful APIs
+            </p>
+
+            <p>
+                Built by Pingaksh Arora
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
